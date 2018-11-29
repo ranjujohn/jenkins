@@ -24,7 +24,7 @@ podTemplate(
 ) {
     node('mypod') {
         def commitId
-        stage ('Extract') {
+        stage ('Extract the Commit ID') {
             checkout scm
             commitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         }
@@ -34,7 +34,7 @@ podTemplate(
             }
         }
         def repository
-        stage ('Docker') {
+        stage ('Create Docker Image') {
             container ('docker') {
                 repository = "ranjujohn/test"
                 sh "docker build -t ${repository}:${commitId} ."
